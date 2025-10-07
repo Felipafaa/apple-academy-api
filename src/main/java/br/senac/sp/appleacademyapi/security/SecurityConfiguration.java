@@ -1,3 +1,5 @@
+package br.senac.sp.appleacademyapi.security;
+
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,9 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
             .authorizeHttpRequests( auth -> auth
-                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll() // <-- AQUI ESTÁ A REGRA PRINCIPAL: LIBERA O LOGIN
-                .requestMatchers(HttpMethod.POST, "/users").permitAll()      // <-- BOA PRÁTICA: LIBERA O CADASTRO DE USUÁRIO TAMBÉM
-                .anyRequest().authenticated()                               // <-- TRANCA TODO O RESTO
+                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                .anyRequest().authenticated()
             )
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sm -> sm.sessionCreationPolicy(STATELESS))
