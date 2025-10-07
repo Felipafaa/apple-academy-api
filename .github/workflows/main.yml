@@ -1,0 +1,40 @@
+# Nome do seu workflow, pode ser qualquer coisa
+name: Deploy Java API to Azure
+
+# Este é o "gatilho": o workflow vai rodar toda vez que você fizer um 'push' na branch 'master' ou 'main'
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build-and-deploy:
+    # O tipo de máquina que o GitHub vai usar para executar os passos
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Baixa o seu código do repositório para a máquina virtual
+      - name: 'Checkout Github Action'
+        uses: actions/checkout@v2
+
+      # 2. Configura o ambiente com a versão correta do Java (o projeto usa Java 17)
+      - name: 'Set up Java 17'
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+
+      # 3. Compila e empacota a aplicação usando o Maven
+      - name: 'Build with Maven'
+        run: mvn clean package -DskipTests
+
+      # 4. Faz o deploy para o Azure Web App
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v2
+        with:
+          # O nome do seu aplicativo no Azure
+          app-name: 'app-dimdim-fiap-557636' 
+          # O segredo (a "chave") que você criou no GitHub. Não mude isso.
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          # O caminho para o arquivo .jar que o Maven criou no passo 3
+          package: '${{ github.workspace }}/target/*.jar'
