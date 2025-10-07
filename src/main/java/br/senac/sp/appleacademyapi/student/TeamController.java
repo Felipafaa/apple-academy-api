@@ -3,6 +3,7 @@ package br.senac.sp.appleacademyapi.student;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional; // IMPORTANTE: ADICIONE ESTE IMPORT
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,7 @@ public class TeamController {
     private TeamRepository teamRepository;
 
     @PostMapping
+    @Transactional // <-- ANOTAÇÃO ADICIONADA PARA FORÇAR O COMMIT
     public Team createTeam(@RequestBody Team team) {
         return teamRepository.save(team);
     }

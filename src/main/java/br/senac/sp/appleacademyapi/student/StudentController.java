@@ -3,6 +3,7 @@ package br.senac.sp.appleacademyapi.student;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional; // IMPORTANTE: ADICIONE ESTE IMPORT
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,6 +14,7 @@ public class StudentController {
     private StudentRepository studentRepository;
 
     @PostMapping
+    @Transactional // <-- ANOTAÇÃO ADICIONADA PARA FORÇAR O COMMIT
     public Student createStudent(@RequestBody Student student) {
         return studentRepository.save(student);
     }
@@ -30,6 +32,7 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
+    @Transactional // <-- ADICIONADO AQUI TAMBÉM
     public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student studentDetails) {
         return studentRepository.findById(id)
                 .map(student -> {
@@ -41,6 +44,7 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
+    @Transactional // <-- ADICIONADO AQUI TAMBÉM
     public ResponseEntity<?> deleteStudent(@PathVariable Long id) {
         return studentRepository.findById(id)
                 .map(student -> {
