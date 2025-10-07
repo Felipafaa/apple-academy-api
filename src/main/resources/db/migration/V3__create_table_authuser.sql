@@ -1,8 +1,0 @@
-CREATE TABLE auth_user (
-    id UUID PRIMARY KEY,
-    email         VARCHAR(255) NOT NULL UNIQUE,
-    password      VARCHAR(255) NOT NULL,
-    role          VARCHAR(100) NOT NULL,
-    created_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
